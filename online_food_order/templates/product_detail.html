@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!--style of the index page-->
+  <style>
+    body {
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .add_to_cart_container {
+      padding: 20px;
+      background-color: #FFFAF6;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      height: 500px;
+      width: 500px;
+      text-align: center;
+      margin-left: 35%;
+      margin-top: 50px;
+      border-radius: 50px;
+
+    }
+  </style>
+</head>
+
+<body>
+  {%block content%}
+
+  <!--Importing navbar from the templates-->
+  <nav>
+    {%include 'base.html' %}
+  </nav>
+
+  <div class="add_to_cart_container" style="border: 3px solid rgb(156, 156, 156);">
+    <div class="image" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+      <img src="{{item.food_image.url}}" alt=""
+        style="position: absolute; top: 0px; left: 100px; height: 200px; width: 200px; object-fit: cover;">
+    </div>
+
+    <div class="texts" style="position: absolute; top: 50px; right: 50px; width: 250px; text-align: left;">
+      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#75FB4C">
+        <path
+          d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z" />
+      </svg>
+      <p style="font-weight: bold; font-size: 20px; position: relative; top: 50px;">{{item.name}}</p>
+      <p style="position: relative; top: 40px; left: 40px; font-weight: bold;">Rs.{{item.price}}</p>
+      <p style="position: relative; top: 20px; right: 20px;">{{item.description}}</p>
+      <br>
+      <p style="left: 10px; top: 80px;">Delivery Time <svg xmlns="http://www.w3.org/2000/svg" height="24px"
+          viewBox="0 -960 960 960" width="24px" fill="#000000">
+          <path
+            d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-400Zm0 320q133 0 226.5-93.5T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160Z" />
+        </svg>{{item.delivery_time}} Minutes</p>
+
+        <form method="POST" action="{% url 'addCart' item.id %}">
+          {% csrf_token %}
+          <input type="hidden" name="product_name" value="{{ item.name }}">
+          <input type="hidden" name="price" value="{{ item.price}}">
+          <input type="hidden" name="delivery_time" value="{{item.delivery_time }}">
+          <input type="number" name="quantity" value="1" min="1">
+          <button class="btn btn-primary" type="submit">Add to Cart</button>
+      </form>
+      <button class="btn btn-primary" type="submit">Order Now</button>
+    </div>
+      
+
+      <script>
+        function increment(item) {
+          var input = document.getElementById(item + '-quantity');
+          input.value = parseInt(input.value) + 1;
+          return input.value;
+        }
+
+        function decrement(item) {
+          var input = document.getElementById(item + '-quantity');
+          var value = parseInt(input.value);
+          if (value > 0) {
+            input.value = value - 1;
+          }
+
+          return input.value
+        }
+      </script>
+    {%endblock content%}
+</body>
+
+</html>

@@ -1,0 +1,423 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    #main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: auto;
+    }
+
+    .cat {
+        border: 3px solid rgb(218, 218, 218);
+        display: inline;
+        height: 170px;
+        width: 170px;
+        margin: 10px;
+        border-radius: 20px;
+        background-color: rgb(240, 231, 231);
+    }
+
+    .items {
+        justify-content: center;
+        margin: auto;
+        align-items: center;
+        display: flex;
+    }
+
+    .contents {
+        margin: 100px;
+    }
+
+    .circle {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        background-color: rgb(201, 236, 247);
+        position: relative;
+        margin: 10px 10px 10px 35px;
+    }
+
+    .circle img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90px;
+        height: auto;
+    }
+
+
+
+    .next {
+        border: none;
+        outline: none;
+        float: right;
+    }
+
+    .price_ratings {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        /* Adjust this value to control spacing between price and rating */
+    }
+
+    .btn {
+        margin-bottom: 10px;
+        margin-right: 60px;
+    }
+
+    .testimonial {
+
+        display: flex;
+        margin-left: 50px;
+        margin-top: 100px;
+    }
+
+    .testimage img {
+
+        height: 400px;
+        width: 400px;
+        border-radius: 50%;
+        margin-left: 20px;
+
+    }
+
+    .texts {
+
+        margin-left: 100px;
+        margin-top: 50px;
+    }
+
+    .customers_profiles {
+        position: relative;
+        top: 20px;
+    }
+
+    .our_journey {
+        display: flex;
+        margin-top: 100px;
+    }
+
+    .boxes {
+        border: 3px solid blue;
+        display: flex;
+    }
+
+    .box {
+        border: 3px solid rgb(167, 166, 166);
+        height: 200px;
+        width: 200px;
+        border-radius: 20px;
+        margin-left: 100px;
+    }
+
+    .serv {
+        border: 3px solid rgb(216, 213, 213);
+        height: 200px;
+        width: 200px;
+        border-radius: 30px;
+        margin: 20px;
+
+    }
+
+    .services_container1 {
+        display: flex;
+    }
+
+    .services_container2 {
+        display: flex;
+    }
+
+    .mcont {
+        margin-left: 200px;
+    }
+
+    .text {
+        height: 200px;
+        position: relative;
+        top: 100px;
+        left: 100px;
+
+    }
+
+    .footdiv {
+        display: inline-block;
+    }
+
+    footer {
+        background-color: #D4DED5;
+        height: 300px;
+        margin-top: 50px;
+    }
+
+    .child {
+        display: inline-block;
+        border: 3px solid rgb(184, 184, 184);
+        margin: 25px;
+        border-radius: 30px;
+
+    }
+
+    .main {
+        border: 3px solid blue;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .add_to_cart_container {
+        text-align: center;
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .food_container {
+        align-items: center;
+        padding-left: 50px;
+        width: 100%;
+        border: none;
+        display: flex;
+    }
+
+    .card img {
+      width: 100%;
+      height: 150px;
+      border-radius: 50%;
+      position: relative;
+      right: 20px;
+    }
+
+    
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--Link for bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+    <!--Link for static css file-->
+    <link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
+
+
+    <style>
+
+    </style>
+
+
+</head>
+
+<body>
+    <!--Navbar code starts from here importing navbar.html with django template-->
+    {% include 'base.html' %}
+
+    <!--main section code starts from here-->
+    <div id="main">
+
+        <div class="right_content">
+            <p>Welcome {{request.user.username}}</p>
+            <h2>Quick, Fresh, Delicious.<br> Your Favorites in Minutes</h1>
+                <p> Why wait for a great meal?<br> Enjoy delicious food without the hassle, perfect for any occasion.
+                </p>
+                <a href="{%url 'addCart' featured_food.id %}"><button class="button" style="background-color:#39DB4A;">Order
+                        Now</button></a>
+        </div>
+
+        <div class="left_content">
+            <img src="{% static 'images/burgir.png' %}" alt="" style="width: 400px; height: 400px; border-radius: 50%;">
+        </div>
+
+    </div>
+    <!--main section code ends here-->
+
+    <!--popular categories code section starts from here-->
+    <div class="contents">
+        <p style="color: red; margin-left: 490px;">CUSTOMER FAVOURITES</p>
+        <h2 style="margin-left: 450px;">Popular Categories</h2>
+        <div class="items">
+            <div class="cat">
+                <div class="circle">
+                    <img src="{%static 'images/maincourse.png' %}" alt="">
+                </div>
+                <h6 style="margin-left:30px;">Main Course</h6>
+                <p style="margin-left: 30px;">(50 Dishes)</p>
+            </div>
+
+            <div class="cat">
+                <div class="circle">
+                    <img src="{%static 'images/appetizers.png' %}" alt="">
+                </div>
+                <h6 style="margin-left:30px;">Appetizers</h6>
+                <p style="margin-left: 30px;">(20 Dishes)</p>
+            </div>
+
+            <div class="cat">
+                <div class="circle">
+                    <img src="{%static 'images/starter.png' %}" alt="">
+                </div>
+                <h6 style="margin-left:30px;">Starter</h6>
+                <p style="margin-left: 30px;">(30 Dishes)</p>
+            </div>
+
+            <div class="cat">
+                <div class="circle">
+                    <img src="{%static 'images/drinks.png' %}" alt="">
+                </div>
+                <h6 style="margin-left:30px;">Drinks</h6>
+                <p style="margin-left: 30px;">(50 Dishes)</p>
+            </div>
+        </div>
+    </div>
+    <!--popular categories code section ends here-->
+
+    <!--Popular dishes category section code starts from here-->
+
+    <h2 style="color: red;">Popular Dishes</h2>
+    <img src="{% static  'images/right_next_icon.png' %}" style="width: 50px; height: 50px; float: right; position: relative; bottom: 60px;" alt="">
+    <img src="{% static  'images/left_next_icon.png' %}" style="width: 50px; height: 50px; float: right; position: relative; bottom: 60px;" alt="">
+    <div class="food_container" style="border: none;">
+        {% for foods in food%}
+        <div class="card " style="width: 18rem; margin: 1rem; height: 350px; border-radius: 50px;">
+            <img class="card-img-top" src="{{foods.food_image.url}}" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">{{foods.name}}</h5>
+              <p class="card-text">{{foods.description}}</p>
+              <p class="card-text">{{foods.price}}</p>
+              <p class="card-text" style="margin-left: 200px; margin-top: -40px;">{{foods.rating}}</p>
+              <a href="#" class="btn btn-primary" style="margin-left: 70px; ">Order Now</a>
+            </div>
+          </div>
+
+        {%endfor%}
+    </div>
+
+    <!--popular dishes category ends here-->
+
+
+    <!--Testimonials category starts from here-->
+    <div class="testimonial">
+
+        <div class="testimage">
+            <img src="{% static 'images/santoshbhai.jpeg' %}" alt="">
+        </div>
+
+        <div class="texts">
+            <p style="color: red;">TESTIOMONIALS</p>
+            <h3>What Our Customers Say About Us.</h3>
+
+
+            <p>“I had the pleasure of dining at One Tree last night, and I'm still raving about the experience! The
+                attention to detail in presentation and service was impeccable”</p>
+
+            <div class="customers_profiles">
+                <img style="height: 50px; width: 50px;" src="{% static 'images/Mask_group.png' %}" alt="">
+                <img style="height: 50px; width: 50px;" src="{% static 'images/Mask_group.png' %}" alt="">
+                <img style="height: 50px; width: 50px;" src="{% static 'images/Mask_group.png' %}" alt="">
+            </div>
+
+            <p style="font-weight: bold; position: relative;left: 25%; bottom: 30px;">Customer Feedback</p>
+            <p style="position: relative; left: 25%;bottom: 30px;">ratings_logo 4.5 (18.5k reviews)</p>
+
+
+        </div>
+    </div>
+    <!--code for testimonail section ends from here-->
+
+    <!--Code for our journey starts from here-->
+    <div class="our_journey">
+
+        <div class="text">
+            <p>Our Story & Services</p>
+            <h2>Our Culinary Journey and Serives</h2>
+            <p>Rooted in passion, we curate unforgettable dining experiences and <br> offer exceptional services,
+                blending
+                culinary artistry with warm hospitality.</p>
+
+            <button class="btn btn-success">Explore</button>
+        </div>
+
+        <!--code for services cards starts from here-->
+        <div class="mcont">
+            <div class="services_container1">
+                <div class="serv">
+                    <p>Catering</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                </div>
+
+                <div class="serv">
+                    <p>Catering</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                </div>
+            </div>
+
+            <div class="services_container2">
+                <div class="serv">
+                    <p>Catering</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                </div>
+
+                <div class="serv">
+                    <p>Catering</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!--code for services cards ends here-->
+    </div>
+    <!--code for our services ends here-->
+
+    <!--footer code starts from here-->
+    <footer>
+        <div class="footdiv" style="position: relative;bottom: 80px; left: 40px;">
+            <p style="font-weight: bold;">One Tree Restro & Bar</p>
+            <p>Savor the artistry where every dish is a culinary masterpiece</p>
+        </div>
+        <div class="footdiv" style="position: relative;  top: 40px; left: 100px;">
+            <p style="font-weight: bold;">Useful Links</p>
+            <p>About Us</p>
+            <p>Blog</p>
+            <p>Events</p>
+            <p>FAQs</p>
+        </div>
+        <div class="footdiv" style="position: relative;  top: 40px; left: 170px;">
+            <p style="font-weight: bold;">Main Menu</p>
+            <p>Home</p>
+            <p>Services</p>
+            <p>About</p>
+            <p>Offers</p>
+        </div>
+        <div class="footdiv" style="position: relative; left: 250px;">
+            <p style="font-weight: bold;">Contact Us</p>
+            <p>onetree2021@gmail.com</p>
+            <p>+9779803478874</p>
+            <p>www.facebook.com/one-tree</p>
+        </div>
+        <div class="footdiv" style="position: relative; top: 100px; right: 500px;">
+            <p>Copyright @ 2024 codebyKabin | All rights reserved</p>
+        </div>
+        <div class="footdiv" style="position: relative; right: 1170px; top: 100px;">
+            <img src="{% static 'images/facebook.png' %}" alt="" style="height: 25px; width: 25px; margin-left: 10px;">
+            <img src="{% static 'images/instagram.png' %}" alt="" style="height: 25px; width: 25px;margin-left: 10px;">
+            <img src="{% static 'images/twitter.png' %}" alt="" style="height: 25px; width: 25px;margin-left: 10px;">
+            <img src="{% static 'images/youtube.png' %}" alt="" style="height: 25px; width: 25px;margin-left: 10px;">
+        </div>
+    </footer>
+
+    <!--Link for bootstrap js-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

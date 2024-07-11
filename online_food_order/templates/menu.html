@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h6 {
+            padding-left: 100px;
+        }
+
+        .main {
+            width: 100%;
+            display: flex;
+        }
+    </style>
+</head>
+
+<body>
+    {%include 'base.html' %}
+    <button class="btn btn-success">Our Dishes</button>
+    <div class="main" style="border: none;">
+        {% for foods in food%}
+        <a href="{%url 'addCart' foods.id%}" style="text-decoration: none;">
+            <div class="card "
+            style="width: 18rem; margin: 1rem; height: 350px; border-radius: 50px; border: 3px solid; display: block;">
+            <img class="card-img-top" src="{{foods.food_image.url}}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{foods.name}}</h5>
+                <p class="card-text" style="font-weight: bold;">Rs.{{foods.price}}</p>
+                <p class="card-text">{{foods.description}}</p>
+                <p class="card-text" style="margin-left: 200px; margin-top: -40px;"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#75FB4C"><path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"/></svg>{{foods.rating}}</p>
+            </div>
+        </div>
+        </a>
+        
+        {%endfor%}
+    </div>
+
+</body>
+
+</html>
