@@ -67,20 +67,23 @@ def signuppage(request):
 def itemInfo(request,item_id):
     item=get_object_or_404(Food,id=item_id)
 
+  
     if request.method=="POST":
-        product_name=request.POST.get('product_name')
-        price=request.POST.get('price')
-        quantity=request.POST.get('quantity')
-
-
-        CartItem.objects.create(
+        cart_item,created=CartItem.objects.get_or_create(
             user=request.user,
-            product_name=product_name,
-            price=price,
-            quantity=quantity
-        )
+            product=item,
+            price=request.post.get('price'),
+            quantity=request.post.get('quantity')
+            )
+        
+        if not created:
+            #if the cart item already exits in the cart
+            cart_item.quantity+=1
+            cart_item.save()
 
-        return redirect('foodcart')
+        messages.success(request,'Item successfully added to the cart')
+
+        
 
 
     context={"item":item}

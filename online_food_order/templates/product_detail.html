@@ -69,6 +69,9 @@
       </form>
       <button class="btn btn-primary" type="submit">Order Now</button>
     </div>
+    {% for message in messages%}
+    <p id="messages">{{message}}</p>
+    {%endfor%}
       
 
       <script>
