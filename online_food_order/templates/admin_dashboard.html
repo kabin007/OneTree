@@ -9,7 +9,7 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
-    /* Add your custom styles here */
+
   </style>
 </head>
 
@@ -22,44 +22,34 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Orders</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Customers</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{%url 'product' %}">Products</a>
-        </li>
-      </ul>
+      <input type="search" name="search" id="search" placeholder="Search for items">
+      <a href="{%url 'add' %}" style="position: relative; left: 20px;"><button class="btn btn-primary">Add
+          Item</button></a>
+      <a href="{%url 'home' %}" style="margin-left: 50px;">Go to Homepage>></a>
     </div>
   </nav>
   <div class="container mt-4">
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-2">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Total Orders</h5>
+            <h5 class="card-title" style="font-size: 15px; font-weight: bold;">Total Orders</h5>
             <p class="card-text">100</p>
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-2">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Total Customers</h5>
+            <h5 class="card-title" style="font-size: 15px; font-weight: bold;">Total Customers</h5>
             <p class="card-text">50</p>
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-2">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Total Products</h5>
+            <h5 class="card-title" style="font-size: 15px; font-weight: bold;">Total Products</h5>
             <p class="card-text">30</p>
           </div>
         </div>
@@ -67,25 +57,38 @@
     </div>
   </div>
 
+  <div class="food_container mt-5" style="border: 3px solid yellow;">
+    <h2>Items Lists</h2>
+    <table class="table table-hover bg-dark text-white">
+      <thead>
+        <tr>
+          <th scope="col">Item Id</th>
+          <th scope="col">Item Name</th>
+          <th scope="col">Category</th>
+          <th scope="col">Price</th>
+          <th scope="col">Rating</th>
+          <th scope="col">Delivery Time</th>
+        </tr>
+      </thead>
+      <tbody>
 
-  <h2>Items Lists</h2>
-  {% for foods in food%}
-  <div class="main" style="display: inline-block;">
-    <div class="card " style="width: 18rem; margin: 1rem; height: 350px; border-radius: 50px;">
-      <img class="card-img-top" src="{{foods.food_image.url}}" alt="Card image cap">
-      <div class="card-body">
-        <h5 class="card-title">{{foods.name}}</h5>
-        <p class="card-text">{{foods.description}}</p>
-        <p class="card-text">{{foods.price}}</p>
-        <p class="card-text" style="margin-left: 200px; margin-top: -40px;">{{foods.rating}}</p>
-        <br>
-        <p class="card-text" style="margin-left: 200px; margin-top: -40px;">{{foods.delivery_time}}</p>
+        {%for foods in food%}
+        <a href="{%url 'update' %}"></a>
+        <tr>
+          <th scope="row">{{foods.id}}</th>
+          <td>{{foods.name}}</td>
+          <td>{{foods.category_name}}</td>
+          <td>{{foods.price}}</td>
+          <td>{{foods.rating}}</td>
+          <td>{{foods.delivery_time}}</td>
+        </tr>
+        </a>
+        {%endfor%}
 
-      </div>
-    </div>
+      </tbody>
+    </table>
   </div>
 
-  {%endfor%}
   <!-- Bootstrap JS and dependencies -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>

@@ -2,19 +2,21 @@ from django.shortcuts import get_object_or_404, render,redirect
 from .forms import SignupForm,FoodForm
 from django.contrib import messages
 from django.contrib.auth import authenticate,login
-from .models import Food,CartItem
+from .models import Food,CartItem,Category
 
 # Create your views here.
 
 def home(request):
-    foods=Food.objects.all()
+    foods=Food.objects.all()[:4]
     featured_food=Food.objects.filter(name__icontains='burger').first()
-    context={"food":foods,"featured_food":featured_food}
+    categories=Category.objects.all()
+    context={"food":foods,"featured_food":featured_food,"categories":categories}
     return render(request,'home.html',context)
 
 
 def menu(request):
     foods=Food.objects.all()
+    
     context={"food":foods}
     return render(request,'menu.html',context)
 
@@ -72,19 +74,9 @@ def itemInfo(request,item_id):
         cart_item,created=CartItem.objects.get_or_create(
             user=request.user,
             product=item,
-            price=request.post.get('price'),
-            quantity=request.post.get('quantity')
+            quantity=request.POST.get('quantity'),
             )
         
-        if not created:
-            #if the cart item already exits in the cart
-            cart_item.quantity+=1
-            cart_item.save()
-
-        messages.success(request,'Item successfully added to the cart')
-
-        
-
 
     context={"item":item}
     return render(request,'product_detail.html',context)
@@ -103,9 +95,14 @@ def addFood(request):
     return render(request, 'upload_food.html', {"form": form})
 
 
+def updateFood(request):
+    return render(request,"update_food.html")
+
 
 def foodcart(request):
-    return render(request,'cart.html')
+    cart_items=CartItem.objects.filter(user=request.user)
+    context={"items":cart_items}
+    return render(request,'cart.html',context)
 
 
 

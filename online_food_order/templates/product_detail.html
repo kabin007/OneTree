@@ -61,6 +61,7 @@
 
         <form method="POST" action="{% url 'addCart' item.id %}">
           {% csrf_token %}
+          <input type="hidden" name="product_image" value="{{item.product.food_image.url}}">
           <input type="hidden" name="product_name" value="{{ item.name }}">
           <input type="hidden" name="price" value="{{ item.price}}">
           <input type="hidden" name="delivery_time" value="{{item.delivery_time }}">

@@ -243,37 +243,14 @@
         <p style="color: red; margin-left: 490px;">CUSTOMER FAVOURITES</p>
         <h2 style="margin-left: 450px;">Popular Categories</h2>
         <div class="items">
+            {%for cats in categories%}
             <div class="cat">
                 <div class="circle">
-                    <img src="{%static 'images/maincourse.png' %}" alt="">
+                    <img src="{{cats.category_image.url}}" alt="">
                 </div>
-                <h6 style="margin-left:30px;">Main Course</h6>
-                <p style="margin-left: 30px;">(50 Dishes)</p>
+                <h6 style="margin-left:30px;">{{cats.name}}</h6>
             </div>
-
-            <div class="cat">
-                <div class="circle">
-                    <img src="{%static 'images/appetizers.png' %}" alt="">
-                </div>
-                <h6 style="margin-left:30px;">Appetizers</h6>
-                <p style="margin-left: 30px;">(20 Dishes)</p>
-            </div>
-
-            <div class="cat">
-                <div class="circle">
-                    <img src="{%static 'images/starter.png' %}" alt="">
-                </div>
-                <h6 style="margin-left:30px;">Starter</h6>
-                <p style="margin-left: 30px;">(30 Dishes)</p>
-            </div>
-
-            <div class="cat">
-                <div class="circle">
-                    <img src="{%static 'images/drinks.png' %}" alt="">
-                </div>
-                <h6 style="margin-left:30px;">Drinks</h6>
-                <p style="margin-left: 30px;">(50 Dishes)</p>
-            </div>
+            {%endfor%}      
         </div>
     </div>
     <!--popular categories code section ends here-->
