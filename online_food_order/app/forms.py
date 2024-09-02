@@ -1,10 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Food
-
-
-
+from .models import Food,Address
 
 class SignupForm(UserCreationForm):
     class Meta:
@@ -22,3 +19,10 @@ class FoodForm(forms.ModelForm):
     class Meta:
         model=Food
         fields=['name','description','price','rating','category_name','delivery_time','food_image']
+
+
+
+class AddressForm(forms.ModelForm):
+    class Meta:
+        model=Address
+        fields=['fullname','address','ward','area','mobile']

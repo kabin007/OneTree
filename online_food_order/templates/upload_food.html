@@ -7,18 +7,11 @@
     <title>Document</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-<style>
-    form{
-        width: 20vw;
-        margin-left: 40%;
-      
-    }
-</style>
 </head>
 
 <body>
     {%block content%}
-    <h1>Add Food</h1>
+    <h1>Update Food</h1>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.non_field_errors }}
@@ -50,7 +43,7 @@
             <label for="{{ form.food_image.id_for_label }}">Food Image</label>
             {{ form.food_image }}
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Update</button>
     </form>
     {%endblock content%}
 
