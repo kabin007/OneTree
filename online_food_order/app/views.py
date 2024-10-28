@@ -6,7 +6,11 @@ from .models import Food,CartItem,Category,Address,Order
 from django.db.models import Count,Sum,F
 from django.http import JsonResponse
 import logging
-
+from django.urls import reverse
+from django.contrib.auth.decorators import user_passes_test
+import stripe
+from django.http import Http404
+from django.conf import settings
 
 
 # Create your views here.
@@ -15,8 +19,9 @@ import logging
 def home(request):
     foods=Food.objects.all()[:4]
     featured_food=Food.objects.filter(name__icontains='burger').first()
+    featured_food_image=featured_food.food_image.url
     categories=Category.objects.all()
-    context={"food":foods,"featured_food":featured_food,"categories":categories}
+    context={"food":foods,"image":featured_food_image,"categories":categories,"featured_food":featured_food}
     return render(request,'home.html',context)
 
 
@@ -219,8 +224,11 @@ def checkoutPage(request,order_id):
             return redirect('foodcart')
 
 
-def payment(request):
-    return render(request,'payment.html')
+def payment(request,order_id):
+    order=Order.objects.get(id=order_id)
+    total_amount=order.total_amount
+    context={"total":total_amount,"order_id":order.id}
+    return render(request,'payment.html',context)
 
 def update_address(request):
   if request.method == "POST":
@@ -266,31 +274,159 @@ def update_address(request):
 #view to handle the order processing
 def process_order(request):
     if request.method=="POST":
-            user=request.user
-            cart_items=CartItem.objects.filter(user=user)
-
-            if not cart_items.exists():
-                    messages.error(request,'Your cart is empty')
-                    return redirect('cart')
-            
-            address,created=Address.objects.get_or_create(user=user)
-            if created:
-                messages.warning(request,'Please update your address')
-                return redirect('update_address')
-
-            
-            total_amount=sum(items.product.price*items.quantity for items in cart_items)
-
-            order=Order.objects.create(
-                user=user,
-                total_amount=total_amount,
-                address=address,
-                status='Pending'
+        cart_item=CartItem.objects.filter(
+            user=request.user,
             )
-            #adding the cart items to the order
-            order.items.set(cart_items)
+    
+        address,created=Address.objects.get_or_create(user=request.user)
+        if created:
+            messages.warning(request,'Please update your address')
+            return redirect('update_address')
 
-            messages.success(request,f"Order: {order.id} has been placed successfully.")
-            return redirect('checkout',order_id=order.id)
+            
+        total_amount=sum(items.product.price*items.quantity for items in cart_item)
+
+        order=Order.objects.create(
+            user=request.user,
+            total_amount=total_amount,
+            address=address,
+            status='Pending'
+            )
+        #adding the cart items to the order
+        order.items.set(cart_item)
+
+        messages.success(request,f"Order: {order.id} has been placed successfully.")
+        return redirect(reverse('checkout', args=[order.id]))
     
     return redirect('cart.html')
+
+def service(request):
+    return render(request,'services.html')
+
+def direct_order(request, item_id):
+    if request.method == 'POST':
+        # Get the food item and add it to the cart
+        item = get_object_or_404(Food, id=item_id)
+        cart_item, created = CartItem.objects.get_or_create(
+            user=request.user,
+            product=item
+        )
+        
+        # Get or create the user's address
+        address, created = Address.objects.get_or_create(user=request.user)
+        if created:
+            messages.warning(request, 'Please update your address')
+            return redirect('update_address')
+        
+      
+        total_amount = request.POST.get('price') 
+
+        # Create the order
+        order = Order.objects.create(
+            user=request.user,
+            total_amount=total_amount,
+            address=address,
+            status='Pending'
+        )
+
+        # Add cart items to the order (ensure `cart_item` is in an iterable)
+        order.items.add(cart_item)
+
+        # Prepare context if you need to render a template (not needed for redirect)
+        context = {
+            'order_id': order.id,
+            'items': order.items.all(),
+            'address': order.address,
+            'total_amount': order.total_amount,
+            'status': order.status,
+            'created': order.created,
+            'updated': order.updated,
+            'payment': order.payment_completed
+        }
+
+        # Redirect to the checkout page with `order_id` as a URL parameter
+        return redirect(reverse('checkout', args=[order.id]))
+    
+    # Fallback redirect if the request method is not POST
+    return redirect('food_menu')  # Replace 'food_menu' with an appropriate fallback URL
+
+
+
+
+def admin_dashboard(request):
+    # Fetch and manage orders here
+    orders = Order.objects.all()  # Example: retrieving all orders
+    return render(request, 'admin_dashboard.html', {'orders': orders})
+
+
+def remove_order(request, order_id):
+    order = Order.objects.filter(id=order_id)
+    if order.exists():
+        order.delete()
+        print("Order deleted successfully.")
+    else:
+        print("Order not found.")
+    return redirect('dashboard')
+
+def modify_order(request,order_id):
+    pass
+
+
+
+stripe.api_key = settings.STRIPE_TEST_SECRET_KEY
+
+def initiate_payment(request, order_id):
+    # Fetch the order details using the order_id
+    order = get_object_or_404(Order, id=order_id)
+    
+    # Create a Stripe checkout session with dynamic order data
+    session = stripe.checkout.Session.create(
+        payment_method_types=['card'],
+        line_items=[{
+            'price_data': {
+                'currency': 'usd',  # Set currency as per your needs
+                'product_data': {
+                    'name': f'Order {order.id}',  # Use order ID for identification
+                },
+                'unit_amount': int(order.total_amount * 100),  # Stripe uses cents, so multiply by 100
+            },
+            'quantity': 1,
+        }],
+        mode='payment',
+        success_url="http://127.0.0.1:8000/payment-success?session_id={CHECKOUT_SESSION_ID}",
+        cancel_url="http://127.0.0.1:8000/payment-cancel",
+        client_reference_id=str(order.id)
+    )
+    
+
+    # Redirect the user to the Stripe checkout page
+    return redirect(session.url)
+
+def payment_success(request):
+    session_id = request.GET.get('session_id')
+    if not session_id:
+        raise Http404("Session ID not found")
+
+    # Retrieve session details from Stripe
+    try:
+        session = stripe.checkout.Session.retrieve(session_id)
+        order_id = session.client_reference_id  # Adjust based on your setup
+        order = get_object_or_404(Order,id=order_id)
+        
+        #update the payment status of the order to True
+        order.payment_completed = True
+        order.save()
+    except stripe.error.StripeError:
+        raise Http404("Could not retrieve session")
+
+    # You can access various session details here
+    context = {
+        'session_id': session.id,
+        'amount_total': session.amount_total / 100,  # Amount in the currency's main unit
+        'customer_email': session.customer_details.email,
+        'payment_status': session.payment_status,
+    }
+
+    
+
+    return render(request, 'payment_success.html', context)

@@ -1,31 +1,43 @@
 {%load static%}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    #stripe:hover{
+      background-color: aqua;
+    }
+  </style>
 </head>
+
 <body>
+  <h2 style="align-items: center;justify-content: center;display: flex;">Pay with Stripe</h2>
+  <div class="container mt-5" style="display: flex;align-items: center;justify-content: center;">
+    <div class="row px-5">
+      <a href="{%url 'initiate_payment' order_id %}">
+        <div class="col-md-2 mx-2" >
+          <img src="{% static 'images/stripe.webp' %}" alt="" id="stripe"/>
+        </div>
+      </a>
+      
 
-<h2>Select Your payment method</h2>
-    <div class="col-md-2">
-        <img src="{%static 'images/ime.webp'%}" alt="" style="height: 50px; width: 50px;">
-        IME Pay
-    </div>
-    <div class="col-md-2">
-        <img src="{%static 'images/esewa.png'%}" alt="" style="height: 50px; width: 50px;">
-        Esewa
+     
 
+    <div class="card">
+      <div class="card-body">
+        <div class="card-title">
+          Total Amount : Rs {{total}}
+        </div>
+      </div>
     </div>
-    <div class="col-md-2">
-        <img src="{%static 'images/khalti.webp'%}" alt="" style="height: 50px; width: 50px;">
-        Khalti
-    </div>
+  </div>
 
-    <div class="col-md-2">
-        <img src="{%static 'images/cashondelivery.webp'%}" alt="" style="height: 50px; width: 50px;">
-        Cash on Delivery
-    </div>
+ 
+
 </body>
+
 </html>
