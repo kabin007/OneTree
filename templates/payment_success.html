@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    {%include 'base.html' %}
+    <div class="card">
+        <!-- payment_success.html -->
+        <h1>Payment Successful!</h1>
+        <p>Thank you for your payment.</p>
+        <p>Session ID: {{ session_id }}</p>
+        <p>Total Amount: ${{ amount_total }}</p>
+        <p>Email: {{ customer_email }}</p>
+        <p>Payment Status: {{ payment_status }}</p>
+    </div>
+</body>
+
+</html>
