@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/menu.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        .our-dish {
+
+
+            text-decoration: underline;
+            text-decoration-skip-ink: auto;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 2px;
+            text-decoration-color: #9aff26;
+            font-weight: bold;
+            margin-left: 500px;
+        }
+    </style>
+
+</head>
+
+<body style="background-color: #ffffff;">
+    {%include 'base.html' %}
+    <div class="kabin">
+        <h1 class="our-dish">Our Dishes</h1>
+
+        <div class="btn-group" style="position: relative; bottom: 50px;left: 100px;">
+            <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Browse By Category
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><button class="dropdown-item" type="button">Fast Food</button></li>
+                <li><button class="dropdown-item" type="button">Main Course</button></li>
+                <li><button class="dropdown-item" type="button">Indian Dishes</button></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for foods in food %}
+        <div class="col-md-3 col-sm-6 col-xs-12 mb-4 mx-auto mt-5">
+            <div class="card-container" onclick="goToCheckout('{{foods.id}}')">
+                <div class="card h-100 text-center" style="width: 300px; height: 350px; border-radius: 50px;background-color: white;">
+                    <img class="food_image" src="{{foods.food_image.url}}" alt="Card image cap" style="height: 100px;width: 100px;border-radius: 50%;margin-left: 30%;">
+                    <div class="card-body" style="height: 180px;">
+                        <h5 class="card-title">{{foods.name}}</h5>
+                        <p class="card-text">{{foods.description}}</p>
+                        <p class="card-text"><strong>Rs. {{foods.price}}</strong></p>
+                        <a href="{%url 'addCart2' foods.id%}"><img class="cart_icon"
+                                src="{%static '/images/addcart.png'%}" alt="">
+                        </a>
+                        <p class="card-text"><svg xmlns="http://www.w3.org/2000/svg" height="24px"
+                                viewBox="0 -960 960 960" width="24px" fill="#75FB4C">
+                                <path
+                                    d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z" />
+                            </svg>{{foods.rating}}</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+    <script>
+        function goToCheckout(foodId) {
+            window.location.href = "{%url 'addCart' 0%}".replace('0', foodId);
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

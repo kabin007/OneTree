@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="{% static '/css/product_detail.css' %}" />
+</head>
+
+<body>
+  {%block content%}
+
+  <!--Importing navbar from the templates-->
+  <nav>{%include 'base.html' %}</nav>
+  <div class="container-fluid" style="background-color: #d2f8d6">
+    <div class="row justify-content-center">
+      <div class="col-md-4 col-sm-6 col-xs-12 text-center">
+        <div class="card" style="height: 75vh">
+          <img class="img-fluid" src="{{item.food_image.url}}" alt="" style="
+                height: 200px;
+                width: 200px;
+                border-radius: 50%;
+                margin-left: 30%;
+              " />
+
+          <div class="card-body" style="">
+            <h5 class="card-title">{{item.name}}</h5>
+            <p class="card-text">Rs. <strong>{{item.price}}</strong></p>
+            <p class="card-text">{{item.description}}</p>
+            <p class="card-text">
+              Delivery Time :<strong>{{item.delivery_time}} Minutes</strong>
+            </p>
+          </div>
+
+          <!-- Template: product_detail.html -->
+          <div class="product-container" style="display: flex;margin-top: 10px;">
+            <!-- Add to Cart Form -->
+            <form method="POST" action="{% url 'addCart' item.id %}">
+              {% csrf_token %}
+              <input type="hidden" name="product_image" value="{{item.product.food_image.url}}" />
+              <input type="hidden" name="product_name" value="{{ item.name }}" />
+              <input type="hidden" name="price" value="{{ item.price }}" />
+              <input type="hidden" name="delivery_time" value="{{item.delivery_time }}" />
+
+              <div class="product-action-row"
+                style="display: flex; justify-content: space-between; align-items: center; gap: 1rem;">
+                <!-- Add to Cart button -->
+                <button class="btn btn-primary" type="submit">Add to Cart</button>
+
+                <!-- Quantity input -->
+                <input type="number" name="quantity" value="1" min="1" style="width: 50px; text-align: center;margin-right: 10px;" />
+              </div>
+            </form>
+
+            <!-- Separate Form for Order Now -->
+            <form method="POST" action="{% url 'direct_order' item.id %}">
+              {% csrf_token %}
+              <input type="hidden" name="product_image" value="{{item.product.food_image.url}}" />
+              <input type="hidden" name="product_name" value="{{ item.name }}" />
+              <input type="hidden" name="price" value="{{ item.price }}" />
+              <input type="hidden" name="delivery_time" value="{{item.delivery_time }}" />
+              <input type="hidden" name="quantity" value="1" />
+              <button type="submit" class="btn btn-primary">Order Now</button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    {%endblock content%}
+</body>
+
+</html>

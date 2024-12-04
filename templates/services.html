@@ -1,0 +1,119 @@
+{%load static%}
+<style>
+  .services{
+    
+  }
+
+  img{
+    width:50%;
+    height:auto;
+  }
+
+  .row{
+      padding:50px;
+    }
+
+    .our-services{
+          text-decoration: underline;
+            text-decoration-skip-ink: auto;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 2px;
+            text-decoration-color: #9aff26;
+            font-weight: bold;
+            margin-left: 500px;
+    }
+</style>
+{%include 'base.html' %}
+  <!-- Services Section -->
+  <section class="services">
+    <h1 class="our-services">Our Services</h1>
+
+    <!-- Dine-In Service -->
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Dine-In</h2>
+        <p>Enjoy our cozy ambiance and delicious food in a relaxed setting. Perfect for family dinners, dates, and gatherings.</p>
+        <button type="button" class="btn btn-success">Book a table</button>
+      </div>
+      <div class="col-md-6">
+        <img src="{%static 'images/dine-in.webp'%}" alt="Takeout Service">
+      </div>
+      
+    </div>
+      
+    <!-- Takeout Service -->
+    <div class="row">
+      <div class="col-md-6">
+        <img src="{%static 'images/take-out.webp'%}" alt="Takeout Service">
+      </div>
+
+      <div class="col-md-6">
+        <h2>Take Out</h2>
+        <p>Enjoy our cozy ambiance and delicious food in a relaxed setting. Perfect for family dinners, dates, and gatherings.</p>
+      </div> 
+    </div>
+
+    <!-- Delivery Service -->
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Delivery</h2>
+        <p>Enjoy our cozy ambiance and delicious food in a relaxed setting. Perfect for family dinners, dates, and gatherings.</p>
+        <button type="button" class="btn btn-success">Order Now</button>
+      </div>
+      <div class="col-md-6">
+        <img src="{%static 'images/delivery.webp'%}" alt="Takeout Service">
+      </div>
+      
+    </div>
+
+    <!-- Catering Service -->
+    <div class="row">
+      <div class="col-md-6">
+        <img src="{%static 'images/catering.webp'%}" alt="Takeout Service">
+      </div>
+
+      <div class="col-md-6">
+        <h2>Catering</h2>
+        <p>Enjoy our cozy ambiance and delicious food in a relaxed setting. Perfect for family dinners, dates, and gatherings.</p>
+        <button type="button" class="btn btn-success">Learn More</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact">
+    <div class="footer" style="background-color: grey; color: white; border-radius: 20px; height:50%;">
+      <div class="row">
+          <div class="col-md-3">
+              <p style="font-weight: bold;">Useful Links</p>
+              <p>About Us</p>
+              <p>Blog</p>
+              <p>Events</p>
+              <p>FAQs</p>
+          </div>
+
+          <div class="col-md-3">
+              <p style="font-weight: bold;">Main Menu</p>
+              <p>Home</p>
+              <p>Services</p>
+              <p>About</p>
+              <p>Offers</p>
+          </div>
+
+          <div class="col-md-3">
+              <p style="font-weight: bold;">Contact Us</p>
+              <p>onetree2021@gmail.com</p>
+              <p>+9779803478874</p>
+              <p>www.facebook.com/one-tree</p>
+          </div>
+      </div>
+
+      <div class="footdiv">
+          <p>Copyright @ 2024 codebyKabin | All rights reserved</p>
+      </div>
+      
+  </div>
+  </section>
+
+</body>
+</html>

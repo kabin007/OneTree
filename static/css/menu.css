@@ -1,0 +1,25 @@
+.food_image {
+    height: 120px;
+    width: auto;
+    border-radius: 50%;
+}
+
+.cart_icon {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    left: 100px;
+    bottom: 45px;
+}
+
+.card-text:last-child {
+    position: relative;
+    bottom: 70px;
+    right: 110px;
+}
+
+.kabin{
+    margin-left: 20px; 
+    margin-top: 30px; 
+}
+

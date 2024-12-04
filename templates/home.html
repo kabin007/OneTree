@@ -1,0 +1,245 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    .testimonial {
+        background-color: #f7f7f7;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        position: relative;
+        bottom: 100px;
+    }
+
+    .testimonial blockquote {
+        font-size: 18px;
+        font-style: italic;
+        margin: 20px 0;
+    }
+
+    .testimonial cite {
+        font-size: 16px;
+        color: #ffffff;
+        margin-top: 10px;
+    }
+
+    .testimonial .rating {
+        font-size: 24px;
+        font-weight: bold;
+        color: #ff9900;
+    }
+
+    .testimonial .review-count {
+        font-size: 16px;
+        color: #999;
+        margin-left: 10px;
+    }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--Link for bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+    <link rel="stylesheet" type="text/css" href="{% static '/css/home.css' %}">
+
+    <style>
+
+    </style>
+
+
+</head>
+
+<body style="background-color:#ffffff">
+    <!--Navbar code starts from here importing navbar.html with django template-->
+    {% include 'base.html' %}
+
+    <!--main section code starts from here-->
+    <div class="container">
+        <div class="row">
+            <!-- Move the image column here -->
+            <div class="col-md-4">
+                <img src="{{ image }}" alt="" class="img-fluid mx-5">
+            </div>
+
+            <!-- Move the text column here -->
+            <div class="col-md-6 mt-5 ">
+                <p>Welcome {{request.user.username}}</p>
+                <h2>Quick, Fresh, Delicious.<br> Your Favorites in Minutes</h2>
+                <p> Why wait for a great meal?<br> Enjoy delicious food without the hassle, perfect for any occasion.
+                </p>
+                <form method="POST" action="{% url 'direct_order' featured_food.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="price" value="{{ item.price }}" />
+                    <button class="button" style="background-color:#39DB4A;">Order Now</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!--main section code ends here-->
+
+    <!--popular categories code section starts from here-->
+
+    <div class="row justify-content-center">
+        <h4 style="color: red;display: flex;margin-top: 20px;margin-left: 50px;">Popular Categories</h4>
+        {% for cats in categories %}
+        <div class="col-md-3 mb-4" style="margin-top: 50px;">
+            <div class="card" style="width: 150px; height: 150px; border-radius: 50px; overflow: hidden;">
+                <img class="card-img-top img-fluid" src="{{cats.category_image.url}}" alt="Card image cap"
+                    style="object-fit: cover; width: 100%; height: 100%;">
+
+            </div>
+            <h6 class="card-title">{{cats.name}}</h6>
+        </div>
+        {% endfor %}
+    </div>
+    <!--popular categories code section ends here-->
+
+    <!--Popular dishes category section code starts from here-->
+
+    <h4 style="color: red;display: flex;margin-top: 20px;margin-left: 50px;">Customer Favourites</h4>
+    <div class="row">
+        {% for foods in food %}
+        <div class="col-md-3 mb-4 mx-auto">
+            <div class="card justify-content-center"
+                style="width: 250px; height: 250px; border-radius: 50px; align-items: center;text-align: center;"
+                onclick="redirectCheckout('{{foods.id}}')">
+                <img class="card-img-top img-fluid" src="{{foods.food_image.url}}" alt="Card image cap"
+                    style="object-fit: cover; width:100px; height:100px;border-radius: 50%;">
+                <div class="card-body">
+                    <h5 class="card-title">{{foods.name}}</h5>
+                    <p class="card-text">{{foods.description}}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <!--popular dishes category ends here-->
+
+    <!--code for services cards starts from here-->
+
+    <div class="mcont" style="position: relative; bottom: 150px; margin-top: 300px;">
+
+        <div class="text" style=" display: inline-block;margin-left: 100px;">
+            <p>Our Story & Services</p>
+            <h2>Our Culinary Journey and Serives</h2>
+            <p>Rooted in passion, we curate unforgettable dining experiences and <br> offer exceptional services,
+                blending
+                culinary artistry with warm hospitality.</p>
+
+            <button class="btn btn-success">Explore</button>
+        </div>
+        <div class="serv-main" style="position: relative;bottom: 100px;left: 50px;">
+            <div class="row" style="margin-left: 50%; padding: 10px;">
+                <div class="col-md-5" style="height: 200px; width: 200px;">
+                    <img src="{%static 'images/catering.webp'%}" alt=""
+                        style="border-radius: 50px; height: 75%; width: 100%;object-fit: cover;">
+                    <p style="text-align: center;">Catering</p>
+                </div>
+
+                <div class="col-md-5 " style="height: 200px; width: 200px; margin-left: 10px;">
+                    <img src="{%static 'images/live-music.webp'%}" alt=""
+                        style="border-radius: 50px; height: 75%; width: 100%;object-fit: cover;">
+                    <p style="text-align: center;">Live Music</p>
+                </div>
+            </div>
+
+            <div class="row" style="margin-left: 50%; padding: 10px;">
+                <div class="col-md-5 " style=" height: 200px; width: 200px;">
+                    <img src="{%static 'images/food-delivery.webp'%}" alt=""
+                        style="border-radius: 50px; height: 75%; width: 100%;object-fit: cover;">
+                    <p style="text-align: center;">Instant Delivery</p>
+                </div>
+
+                <div class="col-md-5 " style="height: 200px; width: 200px; margin-left: 10px;">
+                    <img src="{%static 'images/party.webp'%}" alt=""
+                        style="border-radius: 50px; height: 75%; width: 100%;object-fit: cover;">
+                    <p style="text-align: center;">Parties</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--code for our services ends here-->
+    <div class="testimonial">
+        <h2>TESTIOMONIALS</h2>
+        <p>What Our Customers Say About Us.</p>
+
+        <blockquote>
+            <p>“I had the pleasure of dining at One Tree last night, and I'm still raving about the experience! The
+                attention to detail in presentation and service was impeccable”</p>
+            <cite>
+                <span class="rating">4.5</span>
+                <span class="review-count">(18.5k reviews)</span>
+            </cite>
+        </blockquote>
+    </div>
+    <!--code for testimonail section ends from here-->
+
+
+    <!--footer code starts from here-->
+    <div class="footer" style="background-color: grey; color: white; border-radius: 20px; ">
+        <div class="row">
+            <div class="col-md-3">
+                <p style="font-weight: bold;">One Tree Restro & Bar</p>
+                <p>Savor the artistry where every dish is a culinary masterpiece</p>
+            </div>
+
+            <div class="col-md-3">
+                <p style="font-weight: bold;">Useful Links</p>
+                <p>About Us</p>
+                <p>Blog</p>
+                <p>Events</p>
+                <p>FAQs</p>
+            </div>
+
+            <div class="col-md-3">
+                <p style="font-weight: bold;">Main Menu</p>
+                <p>Home</p>
+                <p>Services</p>
+                <p>About</p>
+                <p>Offers</p>
+            </div>
+
+            <div class="col-md-3">
+                <p style="font-weight: bold;">Contact Us</p>
+                <p>onetree2021@gmail.com</p>
+                <p>+9779803478874</p>
+                <p>www.facebook.com/one-tree</p>
+            </div>
+        </div>
+
+        <div class="footdiv">
+            <p>Copyright @ 2024 codebyKabin | All rights reserved</p>
+        </div>
+        <div class="social-icons">
+            <img src="{% static 'images/facebook.png' %}" alt="" style="height: 20px; width: 20px;">
+            <img src="{% static 'images/instagram.png' %}" alt="" style="height: 20px; width: 20px;">
+            <img src="{% static 'images/twitter.png' %}" alt="" style="height: 20px; width: 20px;">
+            <img src="{% static 'images/youtube.png' %}" alt="" style="height: 20px; width: 20px;">
+        </div>
+    </div>
+
+
+    <script>
+        function redirectCheckout(foodId) {
+            window.location.href = "{%url 'addCart' 0%}".replace('0', foodId);
+        }
+    </script>
+    <!--Link for bootstrap js-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
