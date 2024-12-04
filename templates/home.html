@@ -1,5 +1,5 @@
 {% load static %}
-
+<script src="https://kit.fontawesome.com/48d1406cb6.js" crossorigin="anonymous"></script>
 <!DOCTYPE html>
 <html lang="en">
 <style>
@@ -35,6 +35,114 @@
         font-size: 16px;
         color: #999;
         margin-left: 10px;
+    }
+
+    /* Chatbot Icon */
+    .chatbot-icon {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        color: rgb(7, 204, 96);
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 30px;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(55, 233, 31, 0.2);
+        z-index: 1000;
+        transition: transform 0.2s;
+    }
+
+    .chatbot-icon:hover {
+        transform: scale(1.1);
+    }
+
+    /* Chat Interface (Initially Hidden) */
+    .chat-container {
+        position: fixed;
+        /* Ensures it stays fixed on the screen */
+        bottom: 100px;
+        right: 20px;
+        width: 90%;
+        max-width: 400px;
+        background-color: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        display: none;
+        /* Initially hidden */
+        z-index: 9999;
+        /* Very high value to stay on top */
+        padding: 10px;
+        /* Hidden initially */
+    }
+
+    /* Message Bubbles */
+    .message {
+        max-width: 80%;
+        padding: 10px 15px;
+        margin: 10px;
+        border-radius: 15px;
+        font-size: 14px;
+        line-height: 1.4;
+        position: relative;
+        display: inline-block;
+    }
+
+    .sender {
+        background-color: #d1f7c4;
+        align-self: flex-start;
+        border-top-left-radius: 0;
+    }
+
+    .receiver {
+        background-color: #e0e0e0;
+        align-self: flex-end;
+        border-top-right-radius: 0;
+    }
+
+    /* Timestamps */
+    .timestamp {
+        font-size: 10px;
+        color: #555;
+        margin-top: 5px;
+        display: block;
+        text-align: right;
+    }
+
+    /* Input Area */
+    .input-container {
+        display: flex;
+        padding: 10px;
+        border-top: 1px solid #ddd;
+        background-color: #f9f9f9;
+    }
+
+    .input-container input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        font-size: 14px;
+        outline: none;
+    }
+
+    .input-container button {
+        padding: 10px 20px;
+        margin-left: 10px;
+        border: none;
+        border-radius: 20px;
+        background-color: #4caf50;
+        color: #fff;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .input-container button:hover {
+        background-color: #45a049;
     }
 </style>
 
@@ -81,6 +189,40 @@
                     <input type="hidden" name="price" value="{{ item.price }}" />
                     <button class="button" style="background-color:#39DB4A;">Order Now</button>
                 </form>
+
+                <!--
+
+                the below div will only be displayed after the click event of the robo-image div
+                -->
+
+
+
+                <div class="chat-container" id="chat-interface">
+                    <i id="close-icon" class="fa-solid fa-circle-xmark" style="float: right;"></i>
+                    <div class="message sender">
+                        <p>Hello! How are you?</p>
+                        <span class="timestamp">10:30 AM</span>
+                    </div>
+                    <div class="message receiver">
+                        <p>I'm good, thank you! What about you?</p>
+                        <span class="timestamp">10:32 AM</span>
+                    </div>
+                    <div class="message sender">
+                        <p>I'm doing great! 😊</p>
+                        <span class="timestamp">10:34 AM</span>
+                    </div>
+                    <div class="input-container">
+                        <input type="text" placeholder="Type a message..." />
+                        <button>Send</button>
+                    </div>
+                </div>
+
+
+                <div class="chatbot-icon" id="chatbot-icon">
+                    <img src="{% static 'images/chatmsg.webp'%}" alt=""
+                        style="height: 80px;width: 80px;margin-top: -50px;">
+                </div>
+
             </div>
         </div>
     </div>
@@ -232,9 +374,27 @@
 
 
     <script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const chatbotIcon = document.getElementById('chatbot-icon');
+            const chatInterface = document.getElementById('chat-interface');
+            const closeIcon = document.getElementById('close-icon');
+
+            chatbotIcon.addEventListener('click', () => {
+                chatbotIcon.style.display = 'none';  // Hide the icon
+                chatInterface.style.display = 'block';  // Show the chat interface
+            });
+
+            closeIcon.addEventListener('click', () => {
+                chatInterface.style.display = 'none';  // Hide the chat interface
+                chatbotIcon.style.display = 'block';  // Show the icon
+            });
+        });
+
         function redirectCheckout(foodId) {
             window.location.href = "{%url 'addCart' 0%}".replace('0', foodId);
         }
+
     </script>
     <!--Link for bootstrap js-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

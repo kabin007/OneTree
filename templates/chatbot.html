@@ -3,9 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Chat Interface</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* General Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Chat Container */
+.chat-container {
+    width: 90%;
+    max-width: 400px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+/* Message Bubbles */
+.message {
+    max-width: 80%;
+    padding: 10px 15px;
+    margin: 10px;
+    border-radius: 15px;
+    font-size: 14px;
+    line-height: 1.4;
+    position: relative;
+    display: inline-block;
+}
+
+.sender {
+    background-color: #d1f7c4;
+    align-self: flex-start;
+    border-top-left-radius: 0;
+}
+
+.receiver {
+    background-color: #e0e0e0;
+    align-self: flex-end;
+    border-top-right-radius: 0;
+}
+
+/* Timestamps */
+.timestamp {
+    font-size: 10px;
+    color: #555;
+    margin-top: 5px;
+    display: block;
+    text-align: right;
+}
+
+/* Input Area */
+.input-container {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    background-color: #f9f9f9;
+}
+
+.input-container input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 14px;
+    outline: none;
+}
+
+.input-container button {
+    padding: 10px 20px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 20px;
+    background-color: #4caf50;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.input-container button:hover {
+    background-color: #45a049;
+}
+
+    </style>
 </head>
 <body>
-    <h1>Conversate with AI</h1>
+    <div class="chat-container">
+        <div class="message sender">
+            <p>Hello! How are you?</p>
+            <span class="timestamp">10:30 AM</span>
+        </div>
+        <div class="message receiver">
+            <p>I'm good, thank you! What about you?</p>
+            <span class="timestamp">10:32 AM</span>
+        </div>
+        <div class="message sender">
+            <p>I'm doing great! 😊</p>
+            <span class="timestamp">10:34 AM</span>
+        </div>
+        <div class="input-container">
+            <input type="text" placeholder="Type a message..." />
+            <button>Send</button>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+        const chatbotIcon = document.querySelector('.chatbot-icon');
+        const chatInterface = document.getElementById('chat-interface');
+
+        chatbotIcon.addEventListener('click', () => {
+        // Toggle visibility of the chat interface
+            if (chatInterface.style.display === 'none' || chatInterface.style.display === '') {
+            chatInterface.style.display = 'block';
+            } else {
+            chatInterface.style.display = 'none';
+            }
+        });
+    });
+    </script>
 </body>
 </html>

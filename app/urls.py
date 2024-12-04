@@ -28,4 +28,5 @@ urlpatterns=[
     path('payment-success/',views.payment_success,name="success"),
     path('payment/<int:order_id>/',views.payment,name="payment"),
     path('search/',views.search,name="search"),
+    path('chatbotai/',views.chatbot_ai,name="chatbot"),
 ]

@@ -178,7 +178,7 @@ def remove_item(request,item_id):
     return redirect('foodcart')
 
 
-def talk_with_ai(request):
+def chatbot_ai(request):
     return render(request,'chatbot.html')
 
 
