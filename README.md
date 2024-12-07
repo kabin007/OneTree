@@ -1,5 +1,5 @@
 # OneTree
-An online food order site for one tree restaurant and bar
+An online food order system for one tree restaurant and bar integrated with different AI features
 
 Steps to run the project
 1.Download the project folder
